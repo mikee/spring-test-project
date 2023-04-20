@@ -1,0 +1,93 @@
+---
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: test-one
+    labels: 
+      name: test-one
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: test-one-service
+  spec:
+    selector:
+      name: test-one
+    ports:
+    - port: 8080
+      targetPort: 8080
+---
+  apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata: 
+    name: test-one-policy
+    namespace: test-one
+  spec:
+    podSelector: {}
+    policyTypes:
+      - Ingress
+    ingress:
+      - from:
+        - podSelector:
+            matchLabels:
+              name: test-one
+        ports:
+        - protocol: TCP
+          port: 8080
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: test-project-deployment
+    namespace: test-one
+    labels:
+      app: test-one-app
+  spec:
+    selector:
+      matchLabels:
+        name: test-one
+    template:
+      metadata:
+        labels:
+          name: test-one
+      spec:
+        serviceAccountName: testproject-serviceaccount
+        containers:
+        - name: springtest-container
+          image: razor718/springtestproject:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: test-one
+  name: testproject-serviceaccount
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: test-one
+  name: pod-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: test-one
+subjects:
+- kind: ServiceAccount
+  name: testproject-serviceaccount
+  apiGroup:  ""
+roleRef:
+  kind: Role
+  name: pod-reader 
+  apiGroup: rbac.authorization.k8s.io
