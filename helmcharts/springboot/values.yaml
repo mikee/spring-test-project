@@ -2,11 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: khatwanik/spring-test-complete-security:latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
@@ -42,18 +42,16 @@ service:
 
 ingress:
   enabled: true
-  className: nginx
+  className: "nginx"
   annotations: {}
   kubernetes.io/ingress.class: nginx
-  #kubernetes.io/tls-acme: "true"
+    # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: "*"
+    - host: ingress.localhost
       paths:
         - path: /
-          pathType: Prefix
-          backend:
-            service:
-  tls: []
+          pathType: Prefix          
+  #tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
@@ -63,12 +61,12 @@ resources: {}
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-limits:
-  cpu: 100m
-  memory: 128Mi
-requests:
-  cpu: 100m
-  memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false

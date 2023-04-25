@@ -42,7 +42,7 @@ spec:
           #    path: /
           #    port: http
           #readinessProbe:
-          #  httpGet:
+          # httpGet:
           #    path: /
           #    port: http
           resources:

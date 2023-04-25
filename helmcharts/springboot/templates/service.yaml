@@ -8,9 +8,8 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 8080
       protocol: TCP
       name: http
   selector:
     {{- include "springboot.selectorLabels" . | nindent 4 }}
-POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=springboot,app.kubernetes.io/instance=springboot-release2" -o jsonpath="{.items[0].metadata.name}")
