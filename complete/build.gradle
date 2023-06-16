@@ -3,7 +3,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'java'
 	id 'org.sonarqube' version '4.2.1.3168'
+	id 'maven-publish'
+	id 'org.cyclonedx.bom' version '1.7.2'
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 sonarqube {
   properties {
@@ -23,9 +27,20 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.snakeyaml:snakeyaml-engine:2.6'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
-
 test {
 	useJUnitPlatform()
+}
+cyclonedxBom {
+   includeConfigs = ["runtimeClasspath"]
+   skipConfigs = ["compileClasspath", "testCompileClasspath"]
+   projectType = "application"
+   schemaVersion = "1.4"
+   destination = file("build/reports")
+   outputName = "fm-tech-eval-Sbom"
+   outputFormat = "json"
+   includeBomSerialNumber = true
+   componentVersion = "2.0.0"
 }

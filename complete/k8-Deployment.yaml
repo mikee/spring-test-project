@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fm-webapp-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: fm-eval-rr
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: fm-eval-rr
+    spec:
+      containers:
+      - image: ramkamalrao/fm-tech-eval-spring
+        name: fm-eval-rr
+        ports:
+        - containerPort: 8080 
