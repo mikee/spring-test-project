@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  workflow_call:
+  push:
+    branches:
+      - "main"
+      - "hotfix/*"
+      - "feat/*"
+    paths:
+      - "complete/"
+      - "!complete/k8s_deployment/"
+      - "!complete/docs/"
+      - "!complete/reports/"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions: write-all
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  imageName: "vivitian/rest-service-complete"
+  imageTag: "dev"
+
+jobs:
+  sonarcloud:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: "zulu"
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonarqube --info
+
+  c1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Tag with "version"
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "imageTag=$(grep -oP "version\s*=\s*'\K[^']+" complete/build.gradle)" >> $GITHUB_ENV
+
+      - name: Tag on hotfix branches
+        if: startsWith(github.ref, 'refs/heads/hotfix/')
+        run: |
+          echo "imageTag=hotfix-${GITHUB_SHA::6}" >> $GITHUB_ENV
+
+      - name: Tag on feature branches
+        if: startsWith(github.ref, 'refs/heads/feat/')
+        run: |
+          echo "imageTag=dev-${GITHUB_SHA::6}" >> $GITHUB_ENV
+
+      - name: Debug - Image Tag
+        run: |
+          echo "${{ env.imageTag }}"
+          echo "### App Version" >> $GITHUB_STEP_SUMMARY
+
+      - name: Docker - Build
+        run: |
+          cd complete
+          docker build -t ${{ env.imageName}}:${{ env.imageTag}} .
+          echo "### Docker" >> $GITHUB_STEP_SUMMARY
+          echo "Built Image \`${{ env.imageName }}:${{ env.imageTag }}\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: Docker Scan - Snyk Vulnerability Scanner
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ env.imageName }}:${{ env.imageTag }}
+          args: --file=complete/Dockerfile --severity-threshold=high
+
+      - name: Scan -Publish Results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+
+      - name: Docker Hub - Login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker - Push
+        id: docker_push
+        run: |
+          docker push ${{ env.imageName }}:${{ env.imageTag }}
+          echo "Pushed Image \ '${{ env.imageName }}:${{ env.imageTag }}'" >> $GITHUB_STEP_SUMMARY
+
+      - name: Debug - Image digest
+        run: |
+          echo ${{ steps.docker_push.outputs.digest }}
+          echo "Image Digest\ '{{ steps.docker_push.outputs.digest}}\'" >> $GITHUB_STEP_SUMMARY
+
+      - name: Docker - Logout
+        run: docker logout
