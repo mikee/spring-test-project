@@ -53,7 +53,7 @@ public class GreetingControllerTests {
 
 	@Test
     public void testHealthCheckEndpoint() throws Exception {
-        this.mockMvc.perform(get("/health"))
+        this.mockMvc.perform(get("/health")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("OK"));
     }
