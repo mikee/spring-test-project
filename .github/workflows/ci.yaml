@@ -7,11 +7,10 @@ on:
       - "main"
       - "hotfix/*"
       - "feat/*"
-    # paths:
-    #   - "complete/**"
-    #   - "!complete/k8s_deployment/**"
-    #   - "!complete/docs/**"
-    #   - "!complete/reports/**"
+    paths:
+      - "complete/**"
+      - "!complete/k8s_deployment/**"
+      - "!complete/reports/**"
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -23,7 +22,7 @@ concurrency:
 
 env:
   imageName: "vivitian/rest-service-complete"
-  imageTag: "dev"
+  imageTag: "pr-or-other"
 
 jobs:
   sonarcloud:
@@ -118,7 +117,7 @@ jobs:
             snyk.sarif
 
       - name: Docker Hub - Login
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}

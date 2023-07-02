@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: false
+metadata:
+  name: rest-service-account
+  namespace: rest-apis

@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-service-deployment
+  namespace: rest-apis
+  labels:
+    app: rest-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rest-service
+  template:
+    metadata:
+      labels:
+        app: rest-service
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: "runtime/default"
+    spec:
+      automountServiceAccountToken: false
+      serviceAccountName: rest-service-account
+      containers:
+        - name: rest-service-container
+          image: vivitian/rest-service-complete:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          securityContext:
+            capabilities:
+              drop: ["NET_RAW"]
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            # readOnlyRootFilesystem: true
+            runAsUser: 10000
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "0.5"
+            requests:
+              memory: "256Mi"
+              cpu: "0.2"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service
+  namespace: rest-apis
+  labels:
+    app: rest-service
+spec:
+  selector:
+    app: rest-service
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

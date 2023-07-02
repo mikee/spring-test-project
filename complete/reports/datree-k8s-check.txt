@@ -1,0 +1,18 @@
+
+(Summary)
+
+- Passing YAML validation: 5/5
+
+- Passing Kubernetes (1.24.0) schema validation: 5/5
+
+- Passing policy check: 5/5
+
++-----------------------------------+-----------------------+
+| Enabled rules in policy "Starter" | 66                    |
+| Configs tested against policy     | 8                     |
+| Total rules evaluated             | 330                   |
+| Total rules skipped               | 0                     |
+| Total rules failed                | 0                     |
+| Total rules passed                | 330                   |
+| See all rules in policy           | https://app.datree.io |
++-----------------------------------+-----------------------+

@@ -1,0 +1,30 @@
+name: Datree K8S Policy Check
+
+on:
+  workflow_call:
+  push:
+    branches:
+      - "main"
+      - "hotfix/*"
+      - "feat/*"
+    paths:
+      - "complete/k8s_deployment/*.yaml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  DATREE_TOKEN: ${{ secrets.DATREE_TOKEN }}
+
+jobs:
+  k8sPolicyCheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Datree Policy Check
+        uses: datreeio/action-datree@main
+        with:
+          path: "./complete/k8s_deployment/*.yaml"
+          cliArguments: "--only-k8s-files --verbose --output simple"
