@@ -19,6 +19,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -48,5 +50,12 @@ public class GreetingControllerTests {
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 	}
+
+	@Test
+    public void testHealthCheckEndpoint() throws Exception {
+        this.mockMvc.perform(get("/health")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
+    }
 
 }

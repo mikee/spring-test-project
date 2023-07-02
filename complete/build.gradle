@@ -1,7 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '3.0.0'
+	id 'org.springframework.boot' version '3.1.1'
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'java'
+	id "org.sonarqube" version "4.2.1.3168"
+	id 'org.cyclonedx.bom' version '1.7.2'
 }
 
 group = 'com.example'
@@ -12,9 +14,32 @@ repositories {
 	mavenCentral()
 }
 
+sonarqube {
+  properties {
+    property "sonar.projectKey", "vivitian_sprint-test-project"
+    property "sonar.organization", "vivitian"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
+
+cyclonedxBom {
+   includeConfigs = ["runtimeClasspath"]
+   skipConfigs = ["compileClasspath", "testCompileClasspath"]
+   projectType = "application"
+   schemaVersion = "1.4"
+   destination = file("build/reports")
+   outputName = "Sbom"
+   outputFormat = "json"
+   includeBomSerialNumber = true
+   componentVersion = "2.0.0"
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    // Fix for org.yaml:snakeyaml
+    implementation 'org.yaml:snakeyaml:2.0'
 }
 
 test {
