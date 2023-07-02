@@ -15,7 +15,7 @@ spec:
       labels:
         app: rest-service
       annotations:
-        seccomp.security.alpha.kubernetes.io/pod: "runtime/default"
+        seccomp.security.alpha.kubernetes.io/pod: runtime/default
     spec:
       automountServiceAccountToken: false
       serviceAccountName: rest-service-account
