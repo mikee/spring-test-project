@@ -1,0 +1,160 @@
+docker-image|vivitian/rest-service-complete @ 0.0.1-SNAPSHOT
+   ├─ alpine-baselayout/alpine-baselayout @ 3.4.3-r1
+   │  ├─ alpine-baselayout/alpine-baselayout-data @ 3.4.3-r1
+   │  └─ busybox/busybox-binsh @ 1.36.1-r0
+   │     └─ busybox/busybox @ 1.36.1-r0
+   │        └─ musl/musl @ 1.2.4-r0
+   ├─ alpine-baselayout/alpine-baselayout-data @ 3.4.3-r1
+   ├─ alpine-keys/alpine-keys @ 2.4-r1
+   ├─ apk-tools/apk-tools @ 2.14.0-r2
+   │  ├─ ca-certificates/ca-certificates-bundle @ 20230506-r0
+   │  ├─ musl/musl @ 1.2.4-r0
+   │  ├─ openssl/libcrypto3 @ 3.1.1-r1
+   │  │  └─ musl/musl @ 1.2.4-r0
+   │  ├─ openssl/libssl3 @ 3.1.1-r1
+   │  │  ├─ musl/musl @ 1.2.4-r0
+   │  │  └─ openssl/libcrypto3 @ 3.1.1-r1
+   │  └─ zlib/zlib @ 1.2.13-r1
+   │     └─ musl/musl @ 1.2.4-r0
+   ├─ brotli/brotli-libs @ 1.0.9-r14
+   │  └─ musl/musl @ 1.2.4-r0
+   ├─ busybox/busybox @ 1.36.1-r0
+   ├─ busybox/busybox-binsh @ 1.36.1-r0
+   ├─ busybox/ssl_client @ 1.36.1-r0
+   │  ├─ musl/musl @ 1.2.4-r0
+   │  ├─ openssl/libcrypto3 @ 3.1.1-r1
+   │  └─ openssl/libssl3 @ 3.1.1-r1
+   ├─ bzip2/libbz2 @ 1.0.8-r5
+   ├─ ca-certificates/ca-certificates-bundle @ 20230506-r0
+   ├─ encodings/encodings @ 1.0.7-r1
+   ├─ expat/libexpat @ 2.5.0-r1
+   ├─ font-dejavu/font-dejavu @ 2.37-r5
+   │  ├─ encodings/encodings @ 1.0.7-r1
+   │  ├─ fontconfig/fontconfig @ 2.14.2-r3
+   │  │  ├─ busybox/busybox-binsh @ 1.36.1-r0
+   │  │  ├─ expat/libexpat @ 2.5.0-r1
+   │  │  │  └─ musl/musl @ 1.2.4-r0
+   │  │  ├─ freetype/freetype @ 2.13.0-r5
+   │  │  │  ├─ brotli/brotli-libs @ 1.0.9-r14
+   │  │  │  ├─ bzip2/libbz2 @ 1.0.8-r5
+   │  │  │  │  └─ musl/musl @ 1.2.4-r0
+   │  │  │  ├─ libpng/libpng @ 1.6.39-r3
+   │  │  │  │  ├─ musl/musl @ 1.2.4-r0
+   │  │  │  │  └─ zlib/zlib @ 1.2.13-r1
+   │  │  │  ├─ musl/musl @ 1.2.4-r0
+   │  │  │  └─ zlib/zlib @ 1.2.13-r1
+   │  │  └─ musl/musl @ 1.2.4-r0
+   │  └─ mkfontscale/mkfontscale @ 1.2.2-r3
+   │     ├─ busybox/busybox-binsh @ 1.36.1-r0
+   │     ├─ freetype/freetype @ 2.13.0-r5
+   │     ├─ libfontenc/libfontenc @ 1.1.7-r2
+   │     │  ├─ musl/musl @ 1.2.4-r0
+   │     │  └─ zlib/zlib @ 1.2.13-r1
+   │     ├─ musl/musl @ 1.2.4-r0
+   │     └─ zlib/zlib @ 1.2.13-r1
+   ├─ fontconfig/fontconfig @ 2.14.2-r3
+   ├─ freetype/freetype @ 2.13.0-r5
+   ├─ gettext/libintl @ 0.21.1-r7
+   │  └─ musl/musl @ 1.2.4-r0
+   ├─ libc-dev/libc-utils @ 0.7.2-r5
+   │  └─ musl/musl-utils @ 1.2.4-r0
+   │     ├─ musl/musl @ 1.2.4-r0
+   │     └─ pax-utils/scanelf @ 1.3.7-r1
+   │        └─ musl/musl @ 1.2.4-r0
+   ├─ libfontenc/libfontenc @ 1.1.7-r2
+   ├─ libpng/libpng @ 1.6.39-r3
+   ├─ libretls/libretls @ 3.7.0-r1
+   │  ├─ ca-certificates/ca-certificates-bundle @ 20230506-r0
+   │  ├─ musl/musl @ 1.2.4-r0
+   │  ├─ openssl/libcrypto3 @ 3.1.1-r1
+   │  └─ openssl/libssl3 @ 3.1.1-r1
+   ├─ mkfontscale/mkfontscale @ 1.2.2-r3
+   ├─ musl-locales/musl-locales @ 0.1.0-r1
+   │  ├─ gettext/libintl @ 0.21.1-r7
+   │  └─ musl/musl @ 1.2.4-r0
+   ├─ musl-locales/musl-locales-lang @ 0.1.0-r1
+   ├─ musl/musl @ 1.2.4-r0
+   ├─ musl/musl-utils @ 1.2.4-r0
+   ├─ openssl/libcrypto3 @ 3.1.1-r1
+   ├─ openssl/libssl3 @ 3.1.1-r1
+   ├─ pax-utils/scanelf @ 1.3.7-r1
+   ├─ tzdata/tzdata @ 2023c-r1
+   └─ zlib/zlib @ 1.2.13-r1
+vivitian/rest-service-complete:0.0.1-SNAPSHOT:/app @ 
+   ├─ org.yaml:snakeyaml @ 2.0
+   ├─ org.springframework:spring-webmvc @ 6.0.10
+   ├─ org.springframework:spring-web @ 6.0.10
+   ├─ org.springframework.boot:spring-boot-autoconfigure @ 3.1.1
+   ├─ org.springframework.boot:spring-boot @ 3.1.1
+   ├─ jakarta.annotation:jakarta.annotation-api @ 2.1.1
+   ├─ org.springframework:spring-context @ 6.0.10
+   ├─ org.springframework:spring-aop @ 6.0.10
+   ├─ org.springframework:spring-beans @ 6.0.10
+   ├─ org.springframework:spring-expression @ 6.0.10
+   ├─ org.springframework:spring-core @ 6.0.10
+   ├─ com.fasterxml.jackson.datatype:jackson-datatype-jsr310 @ 2.15.2
+   ├─ com.fasterxml.jackson.module:jackson-module-parameter-names @ 2.15.2
+   ├─ com.fasterxml.jackson.core:jackson-annotations @ 2.15.2
+   ├─ com.fasterxml.jackson.core:jackson-core @ 2.15.2
+   ├─ com.fasterxml.jackson.datatype:jackson-datatype-jdk8 @ 2.15.2
+   ├─ com.fasterxml.jackson.core:jackson-databind @ 2.15.2
+   ├─ org.apache.tomcat.embed:tomcat-embed-websocket @ 10.1.10
+   ├─ org.apache.tomcat.embed:tomcat-embed-core @ 10.1.10
+   ├─ org.apache.tomcat.embed:tomcat-embed-el @ 10.1.10
+   ├─ io.micrometer:micrometer-observation @ 1.11.1
+   ├─ ch.qos.logback:logback-classic @ 1.4.8
+   ├─ org.apache.logging.log4j:log4j-to-slf4j @ 2.20.0
+   ├─ org.slf4j:jul-to-slf4j @ 2.0.7
+   ├─ org.springframework:spring-jcl @ 6.0.10
+   ├─ io.micrometer:micrometer-commons @ 1.11.1
+   ├─ ch.qos.logback:logback-core @ 1.4.8
+   ├─ org.slf4j:slf4j-api @ 2.0.7
+   ├─ org.apache.logging.log4j:log4j-api @ 2.20.0
+   └─ org.springframework.boot:spring-boot-jarmode-layertools @ 3.1.1
+vivitian/rest-service-complete:0.0.1-SNAPSHOT:/opt/java/openjdk/lib @ 
+
+Testing vivitian/rest-service-complete:0.0.1-SNAPSHOT...
+
+Organization:      vivitian930
+Package manager:   apk
+Project name:      docker-image|vivitian/rest-service-complete
+Docker image:      vivitian/rest-service-complete:0.0.1-SNAPSHOT
+Platform:          linux/amd64
+Base image:        alpine:3.18.2
+Licenses:          enabled
+
+✔ Tested 30 dependencies for known issues, no vulnerable paths found.
+
+According to our scan, you are currently using the most secure version of the selected base image
+
+-------------------------------------------------------
+
+Testing vivitian/rest-service-complete:0.0.1-SNAPSHOT...
+
+Organization:      vivitian930
+Package manager:   maven
+Target file:       /app
+Project name:      vivitian/rest-service-complete:0.0.1-SNAPSHOT:/app
+Docker image:      vivitian/rest-service-complete:0.0.1-SNAPSHOT
+Licenses:          enabled
+
+✔ Tested 30 dependencies for known issues, no vulnerable paths found.
+
+-------------------------------------------------------
+
+Testing vivitian/rest-service-complete:0.0.1-SNAPSHOT...
+
+Organization:      vivitian930
+Package manager:   maven
+Target file:       /opt/java/openjdk/lib
+Project name:      vivitian/rest-service-complete:0.0.1-SNAPSHOT:/opt/java/openjdk/lib
+Docker image:      vivitian/rest-service-complete:0.0.1-SNAPSHOT
+Licenses:          enabled
+
+✔ Tested vivitian/rest-service-complete:0.0.1-SNAPSHOT for known issues, no vulnerable paths found.
+
+
+Tested 3 projects, no vulnerable paths were found.
+
+
+
