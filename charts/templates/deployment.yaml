@@ -20,11 +20,14 @@ spec:
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
-          resources: {{ .Values.resources }}
+          resources: {{ toYaml .Values.resources | nindent 12  }}
       dnsPolicy: ClusterFirst    
       securityContext:
         runAsUser: 1000
         allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        capabilities:
+          drop: ["NET_RAW"]
     {{- if .Values.createNamespace }}
     preInstall:
       - name: create-namespace

@@ -10,7 +10,7 @@ name: spring-rest-test
 
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8080
   targetPort: 8080
 
@@ -23,3 +23,9 @@ podServiceAccount:
   name: test-pod-service-account
 
 resources: 
+  limits:
+    memory: "512Mi"
+    cpu: "0.5"
+  requests:
+    memory: "256Mi"
+    cpu: "0.2"

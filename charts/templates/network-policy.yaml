@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-frontend-to-backend
+  name: allow-from-test-one
   namespace: {{ .Values.namespace }}
 spec:
   podSelector:
@@ -10,7 +10,6 @@ spec:
       app: {{ .Values.name }}
   policyTypes:
     - Ingress
-    - Egress
   ingress:
     - from:
         - namespaceSelector:
@@ -19,6 +18,4 @@ spec:
       ports:
         - protocol: TCP
           port: 8080
-  egress:
-    - {}
   {{- end }}
