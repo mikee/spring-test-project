@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      serviceAccountName: {{ if .Values.podServiceAccount.enabled }}{{ .Values.podServiceAccount.name }}{{ end }}
+      containers:
+        - name: {{ .Values.name }}-container
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          resources: {{ .Values.resources }}
+      dnsPolicy: ClusterFirst    
+      securityContext:
+        runAsUser: 1000
+        allowPrivilegeEscalation: false
+    {{- if .Values.createNamespace }}
+    preInstall:
+      - name: create-namespace
+        path: hooks/create-namespace.sh
+    preUpgrade:
+      - name: create-namespace
+        path: hooks/create-namespace.sh
+    {{- end }}

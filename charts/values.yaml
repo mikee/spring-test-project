@@ -1,0 +1,25 @@
+image:
+  repository: spring_rest_test
+  tag: latest
+  imagePullPolicy: IfNotPresent
+
+replicaCount: 1
+namespace: "test-one"
+createNamespace: true
+name: spring-rest-test
+
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+
+networkPolicy:
+  enabled: true
+  namespaces: "test-one"
+
+podServiceAccount:
+  enabled: true  # Set to false if you want to disable the ServiceAccount
+  name: test-pod-service-account
+
+resources: 
